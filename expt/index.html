@@ -1,0 +1,66 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <div id="screenshot" style="text-align:center;">
+      <video id="videostream1" autoplay style="margin: 0"></video>
+      <video id="videostream2" autoplay style="margin: 0; transform: rotateY(180deg);"></video>
+      <img id="screenshot-img">
+      <p><button id="capture-button">Capture video</button>
+      <p><button id="screenshot-button" disabled>Take screenshot</button></p>
+    </div>
+    <script>
+      const constraints = { video: true };
+      const captureVideoButton = document.querySelector('#capture-button');
+      const screenshotButton = document.querySelector('#screenshot-button');
+      const img = document.querySelector('#screenshot img');
+      const video1 = document.querySelector('#videostream1');
+      const video2 = document.querySelector('#videostream2');
+
+      captureVideoButton.onclick = function() {
+        navigator.mediaDevices.getUserMedia(constraints).
+          then(handleSuccess).catch(handleError);
+      };
+
+      screenshotButton.onclick = video1.onclick = video2.onclick = function() {
+        const canvas1 = document.createElement('canvas');
+
+        canvas1.width = video1.videoWidth * 2;
+        canvas1.height = video1.videoHeight;
+
+        const context = canvas1.getContext('2d');
+        context.drawImage(video1, 0, 0);
+        
+        const canvas2 = transformVideo(video1);
+        context.drawImage(canvas2, video1.videoWidth, 0);
+        canvas2.remove();
+        
+        // Other browsers will fall back to image/png
+        img.src = canvas1.toDataURL('image/webp');
+        canvas1.remove();
+      };
+
+      function transformVideo(video) {
+        const canvas = document.createElement('canvas');
+        canvas.width = video1.videoWidth * 2;
+        canvas.height = video1.videoHeight;
+        context = canvas.getContext('2d');
+        context.translate(video.videoWidth, 0);
+        context.scale(-1, 1);
+        context.drawImage(video, 0, 0);
+        return canvas;
+      }
+      
+      function handleSuccess(stream) {
+        screenshotButton.disabled = false;
+        video1.srcObject = stream;
+        video2.srcObject = stream;
+      }
+
+      function handleError(error) {
+        console.error('navigator.getUserMedia error: ', error);
+      }
+    </script>
+  </body>
+</html>
+
