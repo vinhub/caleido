@@ -5,12 +5,14 @@
     </style>
   </head>
   <body>
-    <div id="main" style="display: flex; flex-direction: column; justify-content: start; align-items: stretch; width: 100%; height: 100%; overflow: hidden;">
-      <div id="video-container" style="display: flex; justify-content: center; align-items: start; width: 100%; height: 100%;">
-        <video id="video-1" autoplay style="object-fit: contain;"></video>
-        <video id="video-2" autoplay style="transform: rotateY(180deg); object-fit: contain;"></video>
+    <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; overflow: hidden;">
+      <div id="mainView">
+        <div id="video-container" style="display: flex; justify-content: space-around; align-items: center;margin-left: auto; margin-right: auto;">
+          <video id="video-1" autoplay style="object-fit: contain;"></video>
+          <video id="video-2" autoplay style="transform: rotateY(180deg); object-fit: contain;"></video>
+        </div>
+        <img id="picture-img" style="display: none; object-fit: contain;margin-left: auto; margin-right: auto;" />
       </div>
-      <img id="picture-img" style="display: none; object-fit: contain;" />
       <div style="display: flex; flex-direction: row; justify-content: center; align-items: stretch; width: 100%; height: 50px;">
         <a id="take-picture-button" class="button" href="#" style="margin: 10px; height: 25px;">Take picture</a>
         <a id="save-picture-button" class="button" href="#" style="margin: 10px; height: 25px;" disabled>Save picture</a>
