@@ -1,32 +1,49 @@
 <html>
   <head>
+    <style>
+      body { width: 100%; height: 100%; margin: 0; }
+    </style>
   </head>
   <body>
-    <div id="screenshot" style="text-align:center;">
-      <video id="videostream1" autoplay style="margin: 0"></video>
-      <video id="videostream2" autoplay style="margin: 0; transform: rotateY(180deg);"></video>
-      <img id="screenshot-img">
-      <p><button id="capture-button">Capture video</button>
-      <p><button id="screenshot-button" disabled>Take screenshot</button></p>
+    <div id="main" style="display: flex; flex-direction: column; justify-content: start; align-items: stretch; width: 100%; height: 100%; overflow: hidden;">
+      <div id="video-container" style="display: flex; justify-content: center; align-items: stretch; width: 100%; height: 100%;">
+        <video id="video-1" autoplay></video>
+        <video id="video-2" autoplay style="transform: rotateY(180deg);"></video>
+      </div>
+      <img id="picture-img" style="display: none;" />
+      <div style="display: flex; flex-direction: row; justify-content: center; align-items: stretch; width: 100%; height: 50px;">
+        <button id="take-picture-button" style="margin: 10px; height: 25px;">Take picture</button>
+        <button id="save-picture-button" style="margin: 10px; height: 25px;" disabled>Save picture</button>
+      </div>
     </div>
     <script>
       const constraints = { video: true };
-      const captureVideoButton = document.querySelector('#capture-button');
-      const screenshotButton = document.querySelector('#screenshot-button');
-      const img = document.querySelector('#screenshot img');
-      const video1 = document.querySelector('#videostream1');
-      const video2 = document.querySelector('#videostream2');
+      const takePictureBtn = document.querySelector('#take-picture-button');
+      const savePictureBtn = document.querySelector('#save-picture-button');
+      const pictureImg = document.querySelector('#picture-img');
+      const video1 = document.querySelector('#video-1');
+      const video2 = document.querySelector('#video-2');
 
-      captureVideoButton.onclick = function() {
-        navigator.mediaDevices.getUserMedia(constraints).
-          then(handleSuccess).catch(handleError);
-      };
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      const videoContainer = document.querySelector('#video-container');
+      if (windowWidth > windowHeight) {
+        // horizontal
+        videoContainer.style.flexDirection = 'row';
+        video1.style.width = video2.style.width = videoContainer.clientWidth / 2;
+        video1.style.height = video2.style.height = videoContainer.clientHeight;
+      } else {
+        // vertical
+        videoContainer.style.flexDirection = 'column'; 
+        video1.style.width = video2.style.width = videoContainer.clientWidth;
+        video1.style.height = video2.style.height = videoContainer.clientHeight / 2;
+      }
 
-      screenshotButton.onclick = video1.onclick = video2.onclick = function() {
+      takePictureBtn.onclick = video1.onclick = video2.onclick = function() {
         const canvas1 = document.createElement('canvas');
 
-        canvas1.width = video1.videoWidth * 2;
-        canvas1.height = video1.videoHeight;
+        canvas1.width = pictureImg.style.width = video1.videoWidth * 2;
+        canvas1.height = pictureImg.style.height = video1.videoHeight;
 
         const context = canvas1.getContext('2d');
         context.drawImage(video1, 0, 0);
@@ -36,8 +53,22 @@
         canvas2.remove();
         
         // Other browsers will fall back to image/png
-        img.src = canvas1.toDataURL('image/webp');
+        pictureImg.src = canvas1.toDataURL('image/webp');
         canvas1.remove();
+        
+        pictureImg.style.display = 'block';
+        videoContainer.style.display = 'none';
+        savePictureBtn.disabled = false;
+        takePictureBtn.disabled = true;
+      };
+
+      savePictureBtn.onclick = function() {
+        // TODO: Save picture
+        
+        pictureImg.style.display = 'none';
+        videoContainer.style.display = 'flex';
+        savePictureBtn.disabled = true;
+        takePictureBtn.disabled = false;
       };
 
       function transformVideo(video) {
@@ -52,7 +83,7 @@
       }
       
       function handleSuccess(stream) {
-        screenshotButton.disabled = false;
+        takePictureBtn.disabled = false;
         video1.srcObject = stream;
         video2.srcObject = stream;
       }
@@ -60,6 +91,11 @@
       function handleError(error) {
         console.error('navigator.getUserMedia error: ', error);
       }
+      
+      (function() {
+        navigator.mediaDevices.getUserMedia(constraints).
+          then(handleSuccess).catch(handleError);
+      })();
     </script>
   </body>
 </html>
