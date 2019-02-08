@@ -6,14 +6,14 @@
   </head>
   <body>
     <div id="main" style="display: flex; flex-direction: column; justify-content: start; align-items: stretch; width: 100%; height: 100%; overflow: hidden;">
-      <div id="video-container" style="display: flex; justify-content: center; align-items: stretch; width: 100%; height: 100%;">
-        <video id="video-1" autoplay></video>
-        <video id="video-2" autoplay style="transform: rotateY(180deg);"></video>
+      <div id="video-container" style="display: flex; justify-content: center; align-items: start; width: 100%; height: 100%;">
+        <video id="video-1" autoplay style="object-fit: contain;"></video>
+        <video id="video-2" autoplay style="transform: rotateY(180deg); object-fit: contain;"></video>
       </div>
-      <img id="picture-img" style="display: none;" />
+      <img id="picture-img" style="display: none; object-fit: contain;" />
       <div style="display: flex; flex-direction: row; justify-content: center; align-items: stretch; width: 100%; height: 50px;">
-        <button id="take-picture-button" style="margin: 10px; height: 25px;">Take picture</button>
-        <button id="save-picture-button" style="margin: 10px; height: 25px;" disabled>Save picture</button>
+        <a id="take-picture-button" class="button" href="#" style="margin: 10px; height: 25px;">Take picture</a>
+        <a id="save-picture-button" class="button" href="#" style="margin: 10px; height: 25px;" disabled>Save picture</a>
       </div>
     </div>
     <script>
@@ -63,8 +63,10 @@
       };
 
       savePictureBtn.onclick = function() {
-        // TODO: Save picture
-        
+        // Save picture
+        savePictureBtn.href = pictureImg.src.replace('image/png', 'image/octet-stream');
+        savePictureBtn.download = 'caleido-' + Math.random().toString(36).substring(7) + '.png';
+                
         pictureImg.style.display = 'none';
         videoContainer.style.display = 'flex';
         savePictureBtn.disabled = true;
