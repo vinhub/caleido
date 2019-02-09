@@ -1,3 +1,5 @@
+'use strict';
+
 const constraints = { video: true };
 const takePictureBtn = document.querySelector('#take-picture-button');
 const savePictureBtn = document.querySelector('#save-picture-button');
@@ -58,7 +60,7 @@ function transformVideo(video) {
   const canvas = document.createElement('canvas');
   canvas.width = video1.videoWidth * 2;
   canvas.height = video1.videoHeight;
-  context = canvas.getContext('2d');
+  const context = canvas.getContext('2d');
   context.translate(video.videoWidth, 0);
   context.scale(-1, 1);
   context.drawImage(video, 0, 0);
