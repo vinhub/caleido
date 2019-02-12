@@ -9,18 +9,18 @@
     <script src="main.js" async></script>
   </head>
   <body>
-    <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; overflow: hidden;">
-      <div id="mainView">
-        <div id="video-container" style="display: flex; justify-content: space-around; align-items: center;margin-left: auto; margin-right: auto;">
-          <video id="video-1" playsinline autoplay style="object-fit: cover;"></video>
-          <video id="video-2" playsinline autoplay style="transform: rotateY(180deg); object-fit: cover;"></video>
-        </div>
-        <img id="picture-img" style="display: none; object-fit: contain;margin-left: auto; margin-right: auto;" />
+    <div id="video-container">
+      <div class="split video1">
+        <video id="video-1" playsinline autoplay style="object-fit: cover;"></video>
       </div>
-      <div style="display: flex; flex-direction: row; justify-content: center; align-items: stretch; width: 100%; height: 50px;">
-        <a id="take-picture-button" class="button" href="#">Take picture</a>
-        <a id="save-picture-button" class="button" href="#" disabled>Save picture</a>
+      <div class="split video2">
+        <video id="video-2" playsinline autoplay style="transform: rotateY(180deg); object-fit: cover;"></video>
       </div>
+    </div>
+    <img id="picture-img" class="picture-img" style="display: none;" />
+    <div class="button-bar">
+      <a id="take-picture-button" class="button" href="#"><img src="take-picture.png" style="width: 32; height: 32" /></a>
+      <a id="save-picture-button" class="button" href="#" disabled><img src="save-picture.png" style="width: 32; height: 32" /></a>
     </div>
   </body>
 </html>

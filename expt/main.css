@@ -14,6 +14,63 @@
   font-weight: 400;
 }
 
+.picture-img {
+  position: fixed;
+  top: 0;
+  overflow: hidden;
+  object-fit: contain;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.button-bar {
+  position: fixed; 
+  bottom: 0px;
+  text-align: center;
+}
+
+@media (orientation: landscape) {
+  .split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    top: 0;
+    overflow-x: hidden;
+  }
+  
+  .video1 {
+    left: 0;
+  }
+
+  .video2 {
+    right: 0;
+  }
+}
+
+@media (orientation: portrait) {
+  .split {
+    height: 50%;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    overflow-y: hidden;
+  }
+  
+  .video1 {
+    top: 0;
+  }
+
+  .video2 {
+    bottom: 0;
+  }
+}
+
 @media screen and (min-width: 1000px) {
   /* hack! to detect non-touch devices */
   div#links a {
@@ -31,6 +88,7 @@ body {
   margin: 0;
   padding: 1em;
   word-break: break-word;
+  background-color: #000000;
 }
 
 .button {
@@ -38,33 +96,27 @@ body {
   border: none;
   border-radius: 2px;
   color: white;
-  font-family: 'Roboto', sans-serif;
-  font-size: 0.8em;
-  margin: 1em;
-  padding: 0.5em 0.7em 0.7em 0.7em;
-  text-decoration: none;
+  margin: 5px;
+  padding: 5px 20px 5px 20px;
+  display: inline-block;
 }
 
 .button:active {
   background-color: #cf402f;
   color: white;
-  text-decoration: none;
 }
 
 .button:hover {
   background-color: #cf402f;
   color: white;
-  text-decoration: none;
 }
 
 .button[disabled] {
   background-color: #777777;
-  text-decoration: none;
 }
 
 .button[disabled]:hover {
   background-color: #777777;
-  text-decoration: none;
 }
 
 canvas {
@@ -226,7 +278,7 @@ textarea {
 
 video {
   background: #222;
-  margin: 0 0 20px 0;
+  margin: 0;
   --width: 100%;
   width: var(--width);
   height: calc(var(--width) * 0.75);

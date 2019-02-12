@@ -1,26 +1,12 @@
 'use strict';
 
 const constraints = { video: true };
+const videoContainer = document.querySelector('#video-container');
+const video1 = document.querySelector('#video-1');
+const video2 = document.querySelector('#video-2');
 const takePictureBtn = document.querySelector('#take-picture-button');
 const savePictureBtn = document.querySelector('#save-picture-button');
 const pictureImg = document.querySelector('#picture-img');
-const video1 = document.querySelector('#video-1');
-const video2 = document.querySelector('#video-2');
-
-const windowWidth = window.innerWidth;
-const windowHeight = window.innerHeight;
-const videoContainer = document.querySelector('#video-container');
-if (windowWidth > windowHeight) {
-  // horizontal
-  videoContainer.style.flexDirection = 'row';
-  video1.style.width = video2.style.width = videoContainer.clientWidth / 2;
-  video1.style.height = video2.style.height = videoContainer.clientHeight;
-} else {
-  // vertical
-  videoContainer.style.flexDirection = 'column'; 
-  video1.style.width = video2.style.width = videoContainer.clientWidth;
-  video1.style.height = video2.style.height = videoContainer.clientHeight / 2;
-}
 
 takePictureBtn.onclick = video1.onclick = video2.onclick = function() {
   const canvas1 = document.createElement('canvas');
@@ -51,7 +37,7 @@ savePictureBtn.onclick = function() {
   savePictureBtn.download = 'caleido-' + Math.random().toString(36).substring(7) + '.png';
           
   pictureImg.style.display = 'none';
-  videoContainer.style.display = 'flex';
+  videoContainer.style.display = 'block';
   savePictureBtn.disabled = true;
   takePictureBtn.disabled = false;
 };
