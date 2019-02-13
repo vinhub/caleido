@@ -42,14 +42,18 @@
     position: fixed;
     top: 0;
     overflow-x: hidden;
+    -webkit-border-radius: 1px;
   }
   
   .video1 {
     left: 0;
+    object-fit: cover;
   }
 
   .video2 {
     right: 0;
+    object-fit: cover;
+    transform: rotateY(180deg); 
   }
 }
 
@@ -60,14 +64,18 @@
     position: fixed;
     left: 0;
     overflow-y: hidden;
+    -webkit-border-radius: 1px;
   }
   
   .video1 {
     top: 0;
+    object-fit: cover;
+    transform: rotateX(180deg); 
   }
 
   .video2 {
     bottom: 0;
+    object-fit: cover;
   }
 }
 
@@ -274,14 +282,6 @@ strong {
 textarea {
   resize: none;
   font-family: 'Roboto', sans-serif;
-}
-
-video {
-  background: #222;
-  margin: 0;
-  --width: 100%;
-  width: var(--width);
-  height: calc(var(--width) * 0.75);
 }
 
 ul {
