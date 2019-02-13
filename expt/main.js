@@ -7,14 +7,17 @@ const video2 = document.querySelector('#video-2');
 const takePictureBtn = document.querySelector('#take-picture-button');
 const savePictureBtn = document.querySelector('#save-picture-button');
 const pictureImg = document.querySelector('#picture-img');
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 takePictureBtn.onclick = video1.onclick = video2.onclick = function() {
-  const orientation = screen.msOrientation || (screen.orientation || screen.mozOrientation || {}).type;
-  const isLandscape = orientation.startsWith('landscape-');
+  // const orientation = screen.msOrientation || (screen.orientation || screen.mozOrientation || {}).type;
+  //const isLandscape = orientation.startsWith('landscape-');
+  const isLandscape = (Math.abs(window.orientation) === 90);
+
   const canvas1 = document.createElement('canvas');
 
-  canvas1.width = pictureImg.style.width = isLandscape ? video1.videoWidth * 2 : video1.videoWidth;
-  canvas1.height = pictureImg.style.height = isLandscape ? video1.videoHeight : video1.videoHeight * 2;
+  canvas1.width = pictureImg.style.width = isLandscape ? (video1.videoWidth * 2) : video1.videoWidth;
+  canvas1.height = pictureImg.style.height = isLandscape ? video1.videoHeight : (video1.videoHeight * 2);
 
   const context = canvas1.getContext('2d');
   context.drawImage(video1, 0, 0);
@@ -28,19 +31,23 @@ takePictureBtn.onclick = video1.onclick = video2.onclick = function() {
   
   pictureImg.style.display = 'block';
   videoContainer.style.display = 'none';
-  savePictureBtn.disabled = false;
-  takePictureBtn.disabled = true;
+  savePictureBtn.removeAttribute('disabled');
+  takePictureBtn.setAttribute('disabled', 'true');
 };
 
+// Save picture
 savePictureBtn.onclick = function() {
-  // Save picture
-  savePictureBtn.href = pictureImg.src.replace('image/png', 'image/octet-stream');
-  savePictureBtn.download = 'caleido-' + Math.random().toString(36).substring(7) + '.png';
+  if (isIOS) {
+    alert('To save the picture, please tap the picture and hold. It will bring up the "Save Image" menu that will let you save the picture.');
+  } else {
+    savePictureBtn.href = pictureImg.src.replace('image/png', 'image/octet-stream');
+    savePictureBtn.download = 'caleido-' + Math.random().toString(36).substring(7) + '.png';
+  }
           
   pictureImg.style.display = 'none';
   videoContainer.style.display = 'block';
-  savePictureBtn.disabled = true;
-  takePictureBtn.disabled = false;
+  savePictureBtn.setAttribute('disabled', 'true');
+  takePictureBtn.removeAttribute('disabled');
 };
 
 function transformVideo(video, isLandscape) {
