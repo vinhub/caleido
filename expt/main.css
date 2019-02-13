@@ -70,12 +70,12 @@
   .video1 {
     top: 0;
     object-fit: cover;
-    transform: rotateX(180deg); 
   }
 
   .video2 {
     bottom: 0;
     object-fit: cover;
+    transform: rotateX(180deg); 
   }
 }
 
