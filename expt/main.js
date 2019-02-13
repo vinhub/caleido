@@ -19,14 +19,15 @@ takePictureBtn.onclick = function() {
 
   const canvas1 = document.createElement('canvas');
 
-  canvas1.width = pictureImg.style.width = isLandscape ? (video1.videoWidth * 2) : video1.videoWidth;
-  canvas1.height = pictureImg.style.height = isLandscape ? video1.videoHeight : (video1.videoHeight * 2);
+  const oSize = getOriginalClippedSize(video1.videoWidth, video1.videoHeight, video1.clientWidth, video1.clientHeight);
+  canvas1.width = pictureImg.style.width = isLandscape ? (video1.clientWidth * 2) : video1.clientWidth;
+  canvas1.height = pictureImg.style.height = isLandscape ? video1.clientHeight : (video1.clientHeight * 2);
 
   const context = canvas1.getContext('2d');
-  context.drawImage(video1, 0, 0);
+  context.drawImage(video1, 0, 0, oSize.width, oSize.height, 0, 0, video1.clientWidth, video1.clientHeight);
   
-  const canvas2 = transformVideo(video1, isLandscape);
-  context.drawImage(canvas2, isLandscape ? video1.videoWidth : 0, isLandscape ? 0 : video1.videoHeight);
+  const canvas2 = transformVideo(video1, oSize, isLandscape);
+  context.drawImage(canvas2, isLandscape ? video1.clientWidth : 0, isLandscape ? 0 : video1.clientHeight);
   canvas2.remove();
   
   pictureImg.src = canvas1.toDataURL('image/png');
@@ -56,14 +57,14 @@ savePictureBtn.onclick = function() {
   savePictureBtn = enableDisableButton(savePictureBtn, false);
 };
 
-function transformVideo(video, isLandscape) {
+function transformVideo(video, oSize, isLandscape) {
   const canvas = document.createElement('canvas');
-  canvas.width = isLandscape ? video.videoWidth * 2 : video.videoWidth;
-  canvas.height = isLandscape ? video.videoHeight : video.videoHeight * 2;
+  canvas.width = isLandscape ? video.clientWidth * 2 : video.clientWidth;
+  canvas.height = isLandscape ? video.clientHeight : video.clientHeight * 2;
   const context = canvas.getContext('2d');
-  context.translate(isLandscape ? video.videoWidth : 0, isLandscape ? 0 : video.videoHeight);
+  context.translate(isLandscape ? video.clientWidth : 0, isLandscape ? 0 : video.clientHeight);
   context.scale(isLandscape ? -1 : 1, isLandscape ? 1 : -1);
-  context.drawImage(video, 0, 0);
+  context.drawImage(video, 0, 0, oSize.width, oSize.height, 0, 0, video.clientWidth, video.clientHeight);
   return canvas;
 }
 
@@ -80,6 +81,21 @@ function enableDisableButton(el, fEnable) {
   elNew.id = id;
   
   return elNew;
+}
+
+function getOriginalClippedSize(oWidth, oHeight, cWidth, cHeight) {
+  const oRatio = oWidth / oHeight;
+  const cRatio = cWidth / cHeight;
+  return function() {
+    if (oRatio < cRatio) {
+      this.width = oWidth;
+      this.height = oWidth / cRatio;
+    } else {
+      this.width = oHeight * cRatio;
+      this.height = oHeight;
+    }      
+    return this;
+  }.call({});
 }
 
 function handleSuccess(stream) {
