@@ -45,7 +45,8 @@ savePictureBtn.onclick = function() {
     return;
   
   if (isIOS) {
-    alert('To save the picture, please tap the picture and hold. It will bring up the "Save Image" menu that will let you save the picture.');
+    alert('To save the picture, tap and hold on it to bring up the iOS \'Save Image\' menu.');
+    return;
   } else {
     savePictureBtn.href = pictureImg.src.replace('image/png', 'image/octet-stream');
     savePictureBtn.download = 'caleido-' + Math.random().toString(36).substring(7) + '.png';
