@@ -23,8 +23,7 @@ takePictureBtn.onclick = video1.onclick = video2.onclick = function() {
   context.drawImage(canvas2, isLandscape ? video1.videoWidth : 0, isLandscape ? 0 : video1.videoHeight);
   canvas2.remove();
   
-  // Other browsers will fall back to image/png
-  pictureImg.src = canvas1.toDataURL('image/webp');
+  pictureImg.src = canvas1.toDataURL('image/png');
   canvas1.remove();
   
   pictureImg.style.display = 'block';
@@ -35,7 +34,7 @@ takePictureBtn.onclick = video1.onclick = video2.onclick = function() {
 
 savePictureBtn.onclick = function() {
   // Save picture
-  savePictureBtn.href = pictureImg.src; //.replace('image/png', 'image/octet-stream');
+  savePictureBtn.href = pictureImg.src.replace('image/png', 'image/octet-stream');
   savePictureBtn.download = 'caleido-' + Math.random().toString(36).substring(7) + '.png';
           
   pictureImg.style.display = 'none';
