@@ -15,7 +15,7 @@ takePictureBtn.onclick = function() {
   
   // const orientation = screen.msOrientation || (screen.orientation || screen.mozOrientation || {}).type;
   //const isLandscape = orientation.startsWith('landscape-');
-  const isLandscape = (Math.abs(window.orientation) === 90);
+  const isLandscape = (typeof window.orientation !== 'undefined') ? (Math.abs(window.orientation) === 90) : true;
 
   const canvas1 = document.createElement('canvas');
 
