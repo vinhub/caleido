@@ -4,12 +4,15 @@ const constraints = { video: true };
 const videoContainer = document.querySelector('#video-container');
 const video1 = document.querySelector('#video-1');
 const video2 = document.querySelector('#video-2');
-const takePictureBtn = document.querySelector('#take-picture-button');
-const savePictureBtn = document.querySelector('#save-picture-button');
+let takePictureBtn = document.querySelector('#take-picture-button');
+let savePictureBtn = document.querySelector('#save-picture-button');
 const pictureImg = document.querySelector('#picture-img');
 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-takePictureBtn.onclick = video1.onclick = video2.onclick = function() {
+takePictureBtn.onclick = function() {
+  if (takePictureBtn.tagName.toLowerCase() === 'span')
+    return;
+  
   // const orientation = screen.msOrientation || (screen.orientation || screen.mozOrientation || {}).type;
   //const isLandscape = orientation.startsWith('landscape-');
   const isLandscape = (Math.abs(window.orientation) === 90);
@@ -31,12 +34,15 @@ takePictureBtn.onclick = video1.onclick = video2.onclick = function() {
   
   pictureImg.style.display = 'block';
   videoContainer.style.display = 'none';
-  savePictureBtn.removeAttribute('disabled');
-  takePictureBtn.setAttribute('disabled', 'true');
+  takePictureBtn = enableDisableButton(takePictureBtn, false);
+  savePictureBtn = enableDisableButton(savePictureBtn, true);
 };
 
 // Save picture
 savePictureBtn.onclick = function() {
+  if (savePictureBtn.tagName.toLowerCase() === 'span')
+    return;
+  
   if (isIOS) {
     alert('To save the picture, please tap the picture and hold. It will bring up the "Save Image" menu that will let you save the picture.');
   } else {
@@ -46,8 +52,8 @@ savePictureBtn.onclick = function() {
           
   pictureImg.style.display = 'none';
   videoContainer.style.display = 'block';
-  savePictureBtn.setAttribute('disabled', 'true');
-  takePictureBtn.removeAttribute('disabled');
+  takePictureBtn = enableDisableButton(takePictureBtn, true);
+  savePictureBtn = enableDisableButton(savePictureBtn, false);
 };
 
 function transformVideo(video, isLandscape) {
@@ -61,8 +67,22 @@ function transformVideo(video, isLandscape) {
   return canvas;
 }
 
+function enableDisableButton(el, fEnable) {
+  const elNew = document.createElement(fEnable ? 'a' : 'span');
+  elNew.innerHTML = el.innerHTML;
+  const id = el.id;
+  elNew.className = el.className;
+  elNew.href = '#';
+  elNew.onclick = el.onclick;
+  
+  el.parentNode.appendChild(elNew);
+  el.parentNode.removeChild(el);
+  elNew.id = id;
+  
+  return elNew;
+}
+
 function handleSuccess(stream) {
-  takePictureBtn.disabled = false;
   video1.srcObject = stream;
   video2.srcObject = stream;
 }
