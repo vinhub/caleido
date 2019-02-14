@@ -1,15 +1,27 @@
 'use strict';
 
-const constraints = { video: true };
 const videoContainer = document.querySelector('#video-container');
 const video1 = document.querySelector('#video-1');
 const video2 = document.querySelector('#video-2');
+let homeBtn = document.querySelector('#home-button');
+let switchCameraBtn = document.querySelector('#switch-camera-button');
 let takePictureBtn = document.querySelector('#take-picture-button');
 let savePictureBtn = document.querySelector('#save-picture-button');
 const pictureImg = document.querySelector('#picture-img');
 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-takePictureBtn.onclick = function() {
+let cameraDeviceIds = [];
+let currentCameraIndex = -1;
+
+homeBtn.onclick = () => {
+  
+}
+
+switchCameraBtn.onclick = () => {
+  switchCamera();
+}
+
+takePictureBtn.onclick = () => {
   if (takePictureBtn.tagName.toLowerCase() === 'span')
     return;
   
@@ -40,7 +52,7 @@ takePictureBtn.onclick = function() {
 };
 
 // Save picture
-savePictureBtn.onclick = function() {
+savePictureBtn.onclick = () => {
   if (savePictureBtn.tagName.toLowerCase() === 'span')
     return;
   
@@ -108,7 +120,24 @@ function handleError(error) {
   console.error('navigator.getUserMedia error: ', error);
 }
 
+function switchCamera() {
+    currentCameraIndex = (currentCameraIndex < 0) ? 0 : ((currentCameraIndex + 1) % cameraDeviceIds.length);
+    const constraints = {
+      video: { videoConstraints: { deviceId: { exact: cameraDeviceIds[currentCameraIndex] } } },
+      audio: false
+    };
+    
+  navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
+}
+
 (function() {
-  navigator.mediaDevices.getUserMedia(constraints).
-    then(handleSuccess).catch(handleError);
+  navigator.mediaDevices.enumerateDevices().then(mediaDevices => { 
+    mediaDevices.forEach(mediaDevice => {
+      if (mediaDevice.kind === 'videoinput') {
+        cameraDeviceIds.push(mediaDevice.deviceId);
+      }
+    });
+  });
+
+  switchCamera();  
 })();
