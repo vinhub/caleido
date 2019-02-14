@@ -134,7 +134,7 @@ function switchCamera() {
   
   currentCameraIndex = (currentCameraIndex < 0) ? 0 : ((currentCameraIndex + 1) % cameraDeviceIds.length);
   const constraints = {
-    video: { videoConstraints: { deviceId: { exact: cameraDeviceIds[currentCameraIndex] } } },
+    video: { deviceId: { exact: cameraDeviceIds[currentCameraIndex] } },
     audio: false
   };
     
@@ -150,5 +150,6 @@ function switchCamera() {
     });
 
     switchCamera();  
+    switchCameraBtn = enableDisableButton(switchCameraBtn, cameraDeviceIds.length > 1);
   });
 })();
