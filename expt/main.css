@@ -29,12 +29,6 @@
   text-align: center;
 }
 
-.button-bar {
-  position: fixed; 
-  bottom: 0px;
-  text-align: center;
-}
-
 @media (orientation: landscape) {
   .split {
     height: 100%;
@@ -55,6 +49,18 @@
     right: 0;
     object-fit: cover;
     transform: rotateY(180deg); 
+  }
+
+  .button-bar {
+    position: fixed; 
+    left: 0px;
+    padding: 5px;
+  }
+
+  .button-place-holder {
+    display: block;
+    margin: 10px 5px 10px 5px;
+    text-align: center;
   }
 }
 
@@ -78,6 +84,18 @@
     bottom: 0;
     object-fit: cover;
     transform: rotateX(180deg); 
+  }
+
+  .button-bar {
+    position: fixed; 
+    bottom: 0px;
+    padding: 5px;
+  }
+
+  .button-place-holder {
+    display: inline-block;
+    margin: 5px 10px 5px 10px;
+    text-align: center;
   }
 }
 
@@ -106,8 +124,7 @@ a.button {
   border: none;
   border-radius: 2px;
   color: white;
-  margin: 5px;
-  padding: 5px 20px 5px 20px;
+  padding: 6px;
   display: inline-block;
 }
 
@@ -126,8 +143,7 @@ span.button {
   border: none;
   border-radius: 2px;
   color: white;
-  margin: 5px;
-  padding: 5px 20px 5px 20px;
+  padding: 6px;
   display: inline-block;
 }
 

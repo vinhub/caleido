@@ -14,10 +14,20 @@ let cameraDeviceIds = [];
 let currentCameraIndex = -1;
 
 homeBtn.onclick = () => {
+  if (videoContainer.style.display === 'block') // already home?
+    return;
   
+  pictureImg.style.display = 'none';
+  videoContainer.style.display = 'block';
+  switchCameraBtn = enableDisableButton(switchCameraBtn, cameraDeviceIds.length > 1);
+  takePictureBtn = enableDisableButton(takePictureBtn, true);
+  savePictureBtn = enableDisableButton(savePictureBtn, false);
 }
 
 switchCameraBtn.onclick = () => {
+  if (switchCameraBtn.tagName.toLowerCase() === 'span')
+    return;
+  
   switchCamera();
 }
 
@@ -49,6 +59,7 @@ takePictureBtn.onclick = () => {
   videoContainer.style.display = 'none';
   takePictureBtn = enableDisableButton(takePictureBtn, false);
   savePictureBtn = enableDisableButton(savePictureBtn, true);
+  switchCameraBtn = enableDisableButton(switchCameraBtn, false);
 };
 
 // Save picture
@@ -63,11 +74,6 @@ savePictureBtn.onclick = () => {
     savePictureBtn.href = pictureImg.src.replace('image/png', 'image/octet-stream');
     savePictureBtn.download = 'caleido-' + Math.random().toString(36).substring(7) + '.png';
   }
-          
-  pictureImg.style.display = 'none';
-  videoContainer.style.display = 'block';
-  takePictureBtn = enableDisableButton(takePictureBtn, true);
-  savePictureBtn = enableDisableButton(savePictureBtn, false);
 };
 
 function transformVideo(video, oSize, isLandscape) {
@@ -121,11 +127,16 @@ function handleError(error) {
 }
 
 function switchCamera() {
-    currentCameraIndex = (currentCameraIndex < 0) ? 0 : ((currentCameraIndex + 1) % cameraDeviceIds.length);
-    const constraints = {
-      video: { videoConstraints: { deviceId: { exact: cameraDeviceIds[currentCameraIndex] } } },
-      audio: false
-    };
+  if (cameraDeviceIds.length <= 0)
+    return;
+  if ((currentCameraIndex === 0) && (cameraDeviceIds.length === 1))
+    return;
+  
+  currentCameraIndex = (currentCameraIndex < 0) ? 0 : ((currentCameraIndex + 1) % cameraDeviceIds.length);
+  const constraints = {
+    video: { videoConstraints: { deviceId: { exact: cameraDeviceIds[currentCameraIndex] } } },
+    audio: false
+  };
     
   navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
 }
@@ -137,7 +148,7 @@ function switchCamera() {
         cameraDeviceIds.push(mediaDevice.deviceId);
       }
     });
-  });
 
-  switchCamera();  
+    switchCamera();  
+  });
 })();
