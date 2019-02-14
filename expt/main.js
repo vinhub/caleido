@@ -17,6 +17,8 @@ homeBtn.onclick = () => {
   if (videoContainer.style.display === 'block') // already home?
     return;
   
+  refreshDeviceIds();
+
   pictureImg.style.display = 'none';
   videoContainer.style.display = 'block';
   switchCameraBtn = enableDisableButton(switchCameraBtn, cameraDeviceIds.length > 1);
@@ -120,10 +122,13 @@ function getOriginalClippedSize(oWidth, oHeight, cWidth, cHeight) {
 function handleSuccess(stream) {
   video1.srcObject = stream;
   video2.srcObject = stream;
+  
+  refreshDeviceIds();
 }
 
 function handleError(error) {
   console.error('navigator.getUserMedia error: ', error);
+  alert('navigator.getUserMedia error: ' + error.name + ", " + error.message + ", " + error.constraint);
 }
 
 function switchCamera() {
@@ -134,22 +139,29 @@ function switchCamera() {
   
   currentCameraIndex = (currentCameraIndex < 0) ? 0 : ((currentCameraIndex + 1) % cameraDeviceIds.length);
   const constraints = {
-    video: { deviceId: { exact: cameraDeviceIds[currentCameraIndex] } },
+    video: { width: 640, deviceId: { exact: cameraDeviceIds[currentCameraIndex] } },
     audio: false
   };
     
   navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
 }
 
-(function() {
+function refreshDeviceIds() {
+  cameraDeviceIds = [];
   navigator.mediaDevices.enumerateDevices().then(mediaDevices => { 
     mediaDevices.forEach(mediaDevice => {
       if (mediaDevice.kind === 'videoinput') {
         cameraDeviceIds.push(mediaDevice.deviceId);
       }
     });
-
-    switchCamera();  
+    
+    if (currentCameraIndex < 0)
+      switchCamera();  
+    
     switchCameraBtn = enableDisableButton(switchCameraBtn, cameraDeviceIds.length > 1);
   });
+}
+
+(function() {
+  refreshDeviceIds();
 })();
