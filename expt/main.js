@@ -17,13 +17,13 @@ homeBtn.onclick = () => {
   if (videoContainer.style.display === 'block') // already home?
     return;
   
-  refreshDeviceIds();
-
   pictureImg.style.display = 'none';
   videoContainer.style.display = 'block';
   switchCameraBtn = enableDisableButton(switchCameraBtn, cameraDeviceIds.length > 1);
   takePictureBtn = enableDisableButton(takePictureBtn, true);
   savePictureBtn = enableDisableButton(savePictureBtn, false);
+
+  refreshDeviceIds();
 }
 
 switchCameraBtn.onclick = () => {
