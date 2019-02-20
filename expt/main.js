@@ -19,6 +19,7 @@ homeBtn.onclick = () => {
   
   pictureImg.style.display = 'none';
   videoContainer.style.display = 'block';
+  
   switchCameraBtn = enableDisableButton(switchCameraBtn, cameraDeviceIds.length > 1);
   takePictureBtn = enableDisableButton(takePictureBtn, true);
   savePictureBtn = enableDisableButton(savePictureBtn, false);
@@ -122,7 +123,8 @@ function getOriginalClippedSize(oWidth, oHeight, cWidth, cHeight) {
 function handleSuccess(stream) {
   video1.srcObject = stream;
   video2.srcObject = stream;
-  
+
+  // TODO: video2.style.filter = 'saturate(500%)';  
   refreshDeviceIds();
 }
 
