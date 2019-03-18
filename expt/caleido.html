@@ -26,14 +26,27 @@
       <div class="button-place-holder">
         <a id="switch-camera-button" class="button"><img src="switch-camera.png" style="width: 32; height: 32" /></a>
       </div>
+      <div class="button-place-holder">
+        <a id="select-effect-button" class="button"><img src="select-effect.png" style="width: 32; height: 32" /></a>
+      </div>
+    </div>
+    <div id="select-effect-div">
+      <div>Select Effect:</div>
+      <select id="select-effect" size="5">
+        <option value="Normal">Normal</li>
+        <option value="Satura">Satura</li>
+        <option value="Invertoo">Invertoo</li>
+        <option value="Edgy">Edgy</li>
+        <option value="Cool">Cool</li>
+      </select>
     </div>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="main.js" async></script>
-    <!-- <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="0%" height="0%"> -->
-      <!-- <filter id="EdgeDetect"> -->
-        <!-- <feConvolveMatrix order="3 3" preserveAlpha="true" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1"/> -->
-      <!-- </filter> -->
-    <!-- </svg> -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="0%" height="0%">
+      <filter id="EdgeDetect">
+        <feConvolveMatrix order="3 3" preserveAlpha="true" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1"/>
+      </filter>
+    </svg>
   </body>
 </html>
 

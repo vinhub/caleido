@@ -3,15 +3,19 @@
 const videoContainer = document.querySelector('#video-container');
 const video1 = document.querySelector('#video-1');
 const video2 = document.querySelector('#video-2');
-let homeBtn = document.querySelector('#home-button');
+const homeBtn = document.querySelector('#home-button');
 let switchCameraBtn = document.querySelector('#switch-camera-button');
 let takePictureBtn = document.querySelector('#take-picture-button');
 let savePictureBtn = document.querySelector('#save-picture-button');
+let selectEffectBtn = document.querySelector('#select-effect-button');
+const selectEffectDiv = document.querySelector('#select-effect-div');
+const selectEffect = document.querySelector('#select-effect');
 const pictureImg = document.querySelector('#picture-img');
 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 let cameraDeviceIds = [];
 let currentCameraIndex = -1;
+let selectedEffect = 'Normal';
 
 homeBtn.onclick = () => {
   if (videoContainer.style.display === 'block') // already home?
@@ -79,6 +83,36 @@ savePictureBtn.onclick = () => {
   }
 };
 
+// select effect
+selectEffectBtn.onclick = () => {
+  if (selectEffectDiv.style.display === 'block') {
+    selectEffectDiv.style.display = 'none';
+  } else {
+    selectEffectDiv.style.display = 'block';
+  }
+}
+
+selectEffect.onchange = () => {
+  selectedEffect = selectEffect.options[selectEffect.selectedIndex].value;
+  selectEffectDiv.style.display = 'none';
+  
+  applyEffect();
+}
+
+function applyEffect() {
+  switch (selectedEffect) {
+    case 'Satura':
+      video1.style.filter = 'saturate(1000%)';
+      video2.style.filter = 'saturate(1000%) invert(70%)';
+      break;
+      
+    default:
+      video1.style.filter = null;
+      video2.style.filter = null;
+      break;
+  }
+}
+
 function transformVideo(video, oSize, isLandscape) {
   const canvas = document.createElement('canvas');
   canvas.width = isLandscape ? video.clientWidth * 2 : video.clientWidth;
@@ -124,7 +158,7 @@ function handleSuccess(stream) {
   video1.srcObject = stream;
   video2.srcObject = stream;
 
-  // TODO: video2.style.filter = 'saturate(500%)';  
+  applyEffect();
   refreshDeviceIds();
 }
 
