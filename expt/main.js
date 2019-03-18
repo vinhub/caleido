@@ -103,7 +103,22 @@ function applyEffect() {
   switch (selectedEffect) {
     case 'Satura':
       video1.style.filter = 'saturate(1000%)';
-      video2.style.filter = 'saturate(1000%) invert(70%)';
+      video2.style.filter = 'saturate(1000%) invert(100%)';
+      break;
+      
+    case 'Invertoo':
+      video1.style.filter = 'invert(100%)';
+      video2.style.filter = 'invert(70%)';
+      break;
+      
+    case 'Edgy':
+      video1.style.filter = 'url(#EdgeDetect)';
+      video2.style.filter = 'url(#EdgeDetect) invert(70%)';
+      break;
+      
+    case 'Cool':
+      video1.style.filter = 'invert(100%) saturate(1000%)';
+      video2.style.filter = 'invert(100%)';
       break;
       
     default:
