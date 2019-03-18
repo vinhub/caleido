@@ -63,9 +63,11 @@ takePictureBtn.onclick = () => {
   canvas1.height = pictureImg.style.height = isLandscape ? video1.clientHeight : (video1.clientHeight * 2);
 
   const context = canvas1.getContext('2d');
+  context.filter = video1.style.filter;
   context.drawImage(video1, 0, 0, oSize.width, oSize.height, 0, 0, video1.clientWidth, video1.clientHeight);
   
   const canvas2 = transformVideo(video1, oSize, isLandscape);
+  context.filter = video2.style.filter;
   context.drawImage(canvas2, isLandscape ? video1.clientWidth : 0, isLandscape ? 0 : video1.clientHeight);
   canvas2.remove();
   
