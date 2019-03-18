@@ -32,19 +32,27 @@
 #select-effect-div {
   display: none;
   background-color: #d84a38;
-  color: #ffffff;
   border: none;
   border-radius: 4px;
   padding: 8px;
   position: absolute;
-  bottom: 60px;
-  right: 28px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  overflow: hidden; 
+}
+
+#select-effect-title {
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
   font-size: 24px;
+  color: #ffffff;
+  border-bottom: 2px solid #ffffff;
 }
   
 #select-effect {
+  overflow-y: auto;
   border: none;
 }
 

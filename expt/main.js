@@ -18,6 +18,9 @@ let currentCameraIndex = -1;
 let selectedEffect = 'Normal';
 
 homeBtn.onclick = () => {
+  // hide popup
+  selectEffectDiv.style.display = 'none';
+  
   if (videoContainer.style.display === 'block') // already home?
     return;
   
@@ -27,11 +30,15 @@ homeBtn.onclick = () => {
   switchCameraBtn = enableDisableButton(switchCameraBtn, cameraDeviceIds.length > 1);
   takePictureBtn = enableDisableButton(takePictureBtn, true);
   savePictureBtn = enableDisableButton(savePictureBtn, false);
+  selectEffectBtn = enableDisableButton(selectEffectBtn, true);
 
   refreshDeviceIds();
 }
 
 switchCameraBtn.onclick = () => {
+  // hide popup
+  selectEffectDiv.style.display = 'none';
+  
   if (switchCameraBtn.tagName.toLowerCase() === 'span')
     return;
   
@@ -39,6 +46,9 @@ switchCameraBtn.onclick = () => {
 }
 
 takePictureBtn.onclick = () => {
+  // hide popup
+  selectEffectDiv.style.display = 'none';
+  
   if (takePictureBtn.tagName.toLowerCase() === 'span')
     return;
   
@@ -67,10 +77,14 @@ takePictureBtn.onclick = () => {
   takePictureBtn = enableDisableButton(takePictureBtn, false);
   savePictureBtn = enableDisableButton(savePictureBtn, true);
   switchCameraBtn = enableDisableButton(switchCameraBtn, false);
+  selectEffectBtn = enableDisableButton(selectEffectBtn, false);
 };
 
 // Save picture
 savePictureBtn.onclick = () => {
+  // hide popup
+  selectEffectDiv.style.display = 'none';
+  
   if (savePictureBtn.tagName.toLowerCase() === 'span')
     return;
   
@@ -85,6 +99,9 @@ savePictureBtn.onclick = () => {
 
 // select effect
 selectEffectBtn.onclick = () => {
+  if (selectEffectBtn.tagName.toLowerCase() === 'span')
+    return;
+  
   if (selectEffectDiv.style.display === 'block') {
     selectEffectDiv.style.display = 'none';
   } else {
