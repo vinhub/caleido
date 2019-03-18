@@ -122,32 +122,55 @@ function applyEffect() {
   switch (selectedEffect) {
     case 'Satura':
       video1.style.filter = 'saturate(1000%)';
-      video2.style.filter = 'saturate(1000%) invert(100%)';
+      video2.style.filter = video1.style.filter + ' brightness(0.8) blur(2px)';
+      //video2.style.filter = 'saturate(1000%) invert(100%)';
       break;
       
     case 'Invertoo':
       video1.style.filter = 'invert(100%)';
-      video2.style.filter = 'invert(70%)';
+      video2.style.filter = video1.style.filter + ' brightness(0.8) blur(2px)';
+      //video2.style.filter = 'invert(70%)';
       break;
       
     case 'Sepian':
       video1.style.filter = 'sepia(100%)';
-      video2.style.filter = 'sepia(100%) invert(100%)';
+      video2.style.filter = video1.style.filter + ' brightness(0.8) blur(2px)';
+      //video2.style.filter = 'sepia(100%) invert(100%)';
       break;
       
     case 'Edgy':
       video1.style.filter = 'url(#EdgeDetect)';
-      video2.style.filter = 'url(#EdgeDetect) invert(70%)';
+      video2.style.filter = video1.style.filter + ' brightness(0.8) blur(2px)';
+      //video2.style.filter = 'url(#EdgeDetect) invert(70%)';
       break;
       
     case 'Huet':
       video1.style.filter = 'hue-rotate(180deg)';
-      video2.style.filter = 'hue-rotate(180deg) invert(100%)';
+      video2.style.filter = video1.style.filter + ' brightness(0.8) blur(2px)';
+      //video2.style.filter = 'hue-rotate(180deg) invert(100%)';
       break;
       
+    case 'Sharper':
+      video1.style.filter = 'contrast(1.9) grayscale(1)';
+      video2.style.filter = video1.style.filter + ' brightness(0.8) blur(2px)';
+      //video2.style.filter = 'contrast(1.9) grayscale(1)';
+      break;
+    
+    case 'Foggy':
+      video1.style.filter = 'invert(90%) hue-rotate(175deg)';
+      video2.style.filter = video1.style.filter + ' brightness(0.8) blur(2px)';
+      break;
+    
+    case 'Matrix':
+      video1.style.filter = 'brightness(0.7) saturate(150%) contrast(190%) hue-rotate(30deg)';
+      video2.style.filter = video1.style.filter + ' brightness(0.8) blur(2px)';
+      //video2.style.filter = 'brightness(0.7) saturate(150%) contrast(190%) hue-rotate(30deg)';
+      break;
+    
     default:
       video1.style.filter = null;
-      video2.style.filter = null;
+      video2.style.filter = 'brightness(0.8) blur(2px)';
+      //video2.style.filter = null;
       break;
   }
 }
