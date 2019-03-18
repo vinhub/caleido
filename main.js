@@ -130,14 +130,19 @@ function applyEffect() {
       video2.style.filter = 'invert(70%)';
       break;
       
+    case 'Sepian':
+      video1.style.filter = 'sepia(100%)';
+      video2.style.filter = 'sepia(100%) invert(100%)';
+      break;
+      
     case 'Edgy':
       video1.style.filter = 'url(#EdgeDetect)';
       video2.style.filter = 'url(#EdgeDetect) invert(70%)';
       break;
       
-    case 'Cool':
-      video1.style.filter = 'invert(100%) saturate(1000%)';
-      video2.style.filter = 'invert(100%)';
+    case 'Huet':
+      video1.style.filter = 'hue-rotate(180deg)';
+      video2.style.filter = 'hue-rotate(180deg) invert(100%)';
       break;
       
     default:
