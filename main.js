@@ -63,16 +63,29 @@ takePictureBtn.onclick = () => {
   canvas1.height = pictureImg.style.height = isLandscape ? video1.clientHeight : (video1.clientHeight * 2);
 
   const context = canvas1.getContext('2d');
-  context.filter = video1.style.filter;
+  
+  // iOS does not support filters on canvas context
+  if (!isIOS)
+    context.filter = video1.style.filter;
+
   context.drawImage(video1, 0, 0, oSize.width, oSize.height, 0, 0, video1.clientWidth, video1.clientHeight);
   
   const canvas2 = transformVideo(video1, oSize, isLandscape);
-  context.filter = video2.style.filter;
+  if (!isIOS)
+    context.filter = video2.style.filter;
+  
   context.drawImage(canvas2, isLandscape ? video1.clientWidth : 0, isLandscape ? 0 : video1.clientHeight);
   canvas2.remove();
   
   pictureImg.src = canvas1.toDataURL('image/png');
   canvas1.remove();
+
+  // iOS does not support filters on canvas contexts
+  if (isIOS) {
+    // TODO: apply the two filters to appropriate sections of the image
+    // TODO: Also, this does not modify the image itself so the filter effect will not be present when saving the image.
+    pictureImg.style.filter = video1.style.filter;
+  }
   
   pictureImg.style.display = 'block';
   videoContainer.style.display = 'none';
@@ -111,6 +124,7 @@ selectEffectBtn.onclick = () => {
   }
 }
 
+// TODO: The select does not look good on iOS
 selectEffect.onchange = () => {
   selectedEffect = selectEffect.options[selectEffect.selectedIndex].value;
   selectEffectDiv.style.display = 'none';
